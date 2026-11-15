@@ -7,6 +7,7 @@ import hashlib
 import hmac
 import json
 import os
+import re
 import secrets
 import sqlite3
 import threading
@@ -40,6 +41,12 @@ def init_db() -> None:
             title TEXT NOT NULL,
             body TEXT NOT NULL,
             created_at TEXT NOT NULL
+        )""")
+        db.execute("""CREATE TABLE IF NOT EXISTS course_progress (
+            lesson_id TEXT PRIMARY KEY,
+            reflection TEXT NOT NULL,
+            completed INTEGER NOT NULL DEFAULT 0,
+            updated_at TEXT NOT NULL
         )""")
 
 
@@ -122,14 +129,19 @@ class Handler(BaseHTTPRequestHandler):
                     rows = db.execute("SELECT id, kind, title, body, created_at FROM entries ORDER BY created_at DESC").fetchall()
                 self.send_json(200, [{**dict(row), "body": json.loads(row["body"])} for row in rows])
                 return
+            if path == "/api/course-progress":
+                with sqlite3.connect(DB_PATH) as db:
+                    rows = db.execute("SELECT lesson_id, reflection, completed, updated_at FROM course_progress").fetchall()
+                self.send_json(200, [{"lesson_id": row[0], "reflection": row[1], "completed": bool(row[2]), "updated_at": row[3]} for row in rows])
+                return
             self.send_json(404, {"error": "Not found"})
             return
-        if path == "/" or path in ("/index.html", "/app.css", "/app.js", "/CONTENT_LICENSE.md", "/sources/Thought-Record.pdf", "/sources/Activity-Diary.pdf"):
+        if path == "/" or path in ("/index.html", "/app.css", "/app.js", "/content.json", "/CONTENT_LICENSE.md"):
             filename = "index.html" if path == "/" else path.lstrip("/")
             file_path = ROOT / filename
             if file_path.is_file():
                 body = file_path.read_bytes()
-                content_type = {".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".md": "text/markdown; charset=utf-8", ".pdf": "application/pdf"}.get(file_path.suffix, "application/octet-stream")
+                content_type = {".html": "text/html; charset=utf-8", ".css": "text/css; charset=utf-8", ".js": "text/javascript; charset=utf-8", ".json": "application/json; charset=utf-8", ".md": "text/markdown; charset=utf-8"}.get(file_path.suffix, "application/octet-stream")
                 self.send_response(200)
                 self.send_header("Content-Type", content_type)
                 self.send_header("Content-Length", str(len(body)))
@@ -200,7 +212,42 @@ class Handler(BaseHTTPRequestHandler):
                 db.execute("DELETE FROM entries")
             self.send_json(200, {"cleared": True})
             return
+        if path == "/api/course-progress/clear":
+            with sqlite3.connect(DB_PATH) as db:
+                db.execute("DELETE FROM course_progress")
+            self.send_json(200, {"cleared": True})
+            return
         self.send_json(404, {"error": "Not found"})
+
+    def do_PUT(self) -> None:
+        path = urlparse(self.path).path
+        if not self.request_origin_ok():
+            self.send_json(403, {"error": "Request origin was not accepted."})
+            return
+        if not self.authorized():
+            self.send_json(401, {"error": "Sign in to continue."})
+            return
+        match = re.fullmatch(r"/api/course-progress/([a-z0-9-]{1,40})", path)
+        if not match:
+            self.send_json(404, {"error": "Not found"})
+            return
+        try:
+            data = self.read_json()
+        except ValueError as exc:
+            self.send_json(400, {"error": str(exc)})
+            return
+        reflection = data.get("reflection", "")
+        completed = data.get("completed", False)
+        if not isinstance(reflection, str) or len(reflection) > 4000 or not isinstance(completed, bool):
+            self.send_json(400, {"error": "Progress is invalid."})
+            return
+        updated_at = datetime.now(timezone.utc).isoformat()
+        with sqlite3.connect(DB_PATH) as db:
+            db.execute("""INSERT INTO course_progress(lesson_id, reflection, completed, updated_at)
+                VALUES(?, ?, ?, ?) ON CONFLICT(lesson_id) DO UPDATE SET
+                reflection=excluded.reflection, completed=excluded.completed, updated_at=excluded.updated_at""",
+                (match.group(1), reflection, int(completed), updated_at))
+        self.send_json(200, {"lesson_id": match.group(1), "reflection": reflection, "completed": completed, "updated_at": updated_at})
 
     def do_DELETE(self) -> None:
         if not self.request_origin_ok():

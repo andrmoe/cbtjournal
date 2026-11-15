@@ -33,6 +33,7 @@ form.exercise { max-width: 42rem; }
 .field input, .field textarea, .field select, #login input { width: 100%; padding: .55rem; border: 1px solid #aaa; border-radius: 2px; background: #fff; }
 .field textarea { min-height: 5rem; resize: vertical; }
 .field input[type="range"] { padding: 0; }
+.field input[type="checkbox"] { width: auto; padding: 0; border: 0; }
 .range { display: flex; align-items: center; gap: .75rem; }
 .range input { flex: 1; }
 .source { margin-top: 1.5rem; padding-top: .75rem; border-top: 1px solid #ddd; font-size: .85rem; }

@@ -1,8 +1,8 @@
 # CBT Journal
 
-A private, single-user CBT reflection journal for a LAN or VPN. It has a thought record, a small activity planner, and a journal history. Journal entries are stored in a SQLite database on the host and shared across devices; the browser keeps only an authenticated session cookie.
+A private, single-user CBT journal for a LAN or VPN. It includes a six-part general CBT skills path, a thought record, an activity planner, and a journal. Journal entries, learning notes and completion marks are stored in SQLite on the host and shared across devices; the browser keeps only an authenticated session cookie.
 
-The app has no internet runtime dependency: the interface, styles, scripts, API, and original worksheet PDFs are served from this host. Once deployed, it works the same when the LAN has no internet connection.
+The app has no internet runtime dependency: the interface, styles, scripts, course content and API are served from this host. The source-PDF links are optional and need internet access; they are not required to use the app.
 
 ## Run
 
@@ -102,6 +102,6 @@ The database is kept in `/var/lib/cbt-journal/journal.sqlite3`, outside the app 
 
 ## Content and licenses
 
-The adapted thought record and activity planner are attributed and released under CC BY-SA 4.0. The application code remains under the repository's MIT license. Details and links are in [CONTENT_LICENSE.md](CONTENT_LICENSE.md).
+The course content and adapted exercises are released under CC BY-SA 4.0. Application code remains under the repository's MIT license. Details and source links are in [CONTENT_LICENSE.md](CONTENT_LICENSE.md).
 
 This is a personal reflection tool, not a substitute for professional care. Pause an exercise if it makes you feel worse, and seek support when you need it.

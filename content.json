@@ -1,0 +1,125 @@
+{
+  "license": "CC BY-SA 4.0",
+  "title": "CBT skills path",
+  "description": "Six short lessons for self-guided practice. This is not a clinical treatment program.",
+  "lessons": [
+    {
+      "id": "map-a-pattern",
+      "title": "Map a pattern",
+      "points": [
+        "A situation, your interpretation, your feelings, your body responses and your actions can affect one another.",
+        "Mapping one moment can show where a small change might be possible. It is a working description, not a diagnosis."
+      ],
+      "practice": [
+        "Choose one recent, specific moment.",
+        "Write what happened, what went through your mind, what you felt or noticed in your body, what you did, and what happened next."
+      ],
+      "exercise": "thought"
+    },
+    {
+      "id": "choose-a-goal",
+      "title": "Choose a workable goal",
+      "points": [
+        "Pick one current difficulty you can influence.",
+        "Make the first step specific and small enough to try. A realistic plan is more useful than an ambitious plan you cannot start."
+      ],
+      "practice": [
+        "Describe what you would like to do differently.",
+        "Name one first step, when you could take it, and what might get in the way."
+      ],
+      "sources": [
+        { "title": "SMART Goals", "author": "Robert Fulton", "year": 2025, "license": "CC BY-SA 4.0", "url": "https://www.progresspsychotherapy.com/wp-content/uploads/2025/10/SMART-Goals.pdf" }
+      ]
+    },
+    {
+      "id": "plan-an-activity",
+      "title": "Plan an activity",
+      "points": [
+        "When your routine gets smaller, you may have fewer chances for enjoyment, achievement or connection.",
+        "A manageable activity can be a useful experiment. Notice how it goes rather than expecting it to fix your mood."
+      ],
+      "practice": [
+        "Choose one activity and a time for it.",
+        "Make it small enough to do. Afterwards, note what you did and what you noticed."
+      ],
+      "exercise": "activity",
+      "sources": [
+        { "title": "Activity Diary", "author": "Robert Fulton", "year": 2025, "license": "CC BY-SA 4.0", "url": "https://www.progresspsychotherapy.com/wp-content/uploads/2025/10/Activity-Diary.pdf" },
+        { "title": "Graded Activity Plan", "author": "Robert Fulton", "year": 2025, "license": "CC BY-SA 4.0", "url": "https://www.progresspsychotherapy.com/wp-content/uploads/2025/10/Graded-activity-plan.pdf" }
+      ]
+    },
+    {
+      "id": "examine-a-thought",
+      "title": "Examine a thought",
+      "points": [
+        "A thought can feel like a fact, especially when an emotion is strong. It may still be one interpretation of what happened.",
+        "The aim is a fair, useful view that includes the evidence—not forced positivity."
+      ],
+      "practice": [
+        "Write down one thought linked to a strong feeling.",
+        "Note what supports it, what does not support it, and a more balanced way to describe the situation.",
+        "Compare the feeling before and after. Either result is useful information."
+      ],
+      "exercise": "thought",
+      "sources": [
+        { "title": "Thought Record", "author": "Robert Fulton", "year": 2026, "license": "CC BY-SA 4.0", "url": "https://www.progresspsychotherapy.com/wp-content/uploads/2026/09/Thought-Record.pdf" }
+      ]
+    },
+    {
+      "id": "test-a-prediction",
+      "title": "Test a prediction",
+      "points": [
+        "A prediction is something you expect will happen. A small, safe experiment can help you learn whether it happens as expected.",
+        "Choose an experiment that is respectful and low risk. Do not use it to test medical advice, physical safety or another person’s private information."
+      ],
+      "practice": [
+        "Write the prediction in a way you could observe.",
+        "Choose one small action that could give you information.",
+        "Afterward, record what happened and what you would conclude now."
+      ]
+    },
+    {
+      "id": "solve-and-maintain",
+      "title": "Solve a problem and keep what helps",
+      "points": [
+        "For a practical problem, define one part you can act on, list possible options, choose a workable one and plan its first step.",
+        "For uncertainty you cannot solve, choose how you want to respond while it remains uncertain.",
+        "Review which skills helped, what made them hard to use, and who you could turn to for support."
+      ],
+      "practice": [
+        "Write one problem in a single sentence.",
+        "List two possible next steps and choose one to try.",
+        "Name one sign that the problem is returning and one response you could use."
+      ]
+    }
+  ],
+  "exercises": {
+    "thought": {
+      "title": "Thought record",
+      "source": { "title": "Thought Record", "author": "Robert Fulton", "year": 2026, "license": "CC BY-SA 4.0", "url": "https://www.progresspsychotherapy.com/wp-content/uploads/2026/09/Thought-Record.pdf" },
+      "fields": [
+        { "name": "situation", "label": "Situation" },
+        { "name": "emotionBefore", "label": "Emotion before", "type": "text" },
+        { "name": "strengthBefore", "label": "Strength (%)", "type": "range", "value": 60 },
+        { "name": "thought", "label": "Thought" },
+        { "name": "evidenceFor", "label": "Evidence for" },
+        { "name": "evidenceAgainst", "label": "Evidence against" },
+        { "name": "balancedThought", "label": "Balanced thought" },
+        { "name": "emotionAfter", "label": "Emotion after", "type": "text" },
+        { "name": "strengthAfter", "label": "Strength now (%)", "type": "range", "value": 40 }
+      ]
+    },
+    "activity": {
+      "title": "Activity plan",
+      "source": { "title": "Activity Diary", "author": "Robert Fulton", "year": 2025, "license": "CC BY-SA 4.0", "url": "https://www.progresspsychotherapy.com/wp-content/uploads/2025/10/Activity-Diary.pdf" },
+      "fields": [
+        { "name": "date", "label": "Date", "type": "date", "value": "today", "required": true },
+        { "name": "time", "label": "Time", "type": "select", "values": ["Morning", "Afternoon", "Evening", "Any time"] },
+        { "name": "activity", "label": "Activity", "required": true },
+        { "name": "quality", "label": "Focus", "type": "select", "values": ["Enjoyment", "Achievement", "Connection", "A bit of each", "Other"] },
+        { "name": "barrier", "label": "Possible barrier", "type": "text" },
+        { "name": "reflection", "label": "Reflection" }
+      ]
+    }
+  }
+}
